@@ -45,8 +45,8 @@ export function CompletionGaugeCard({
       </div>
 
       {/* Horseshoe Arc Gauge with centered number and non-overlapping label */}
-      <div className="relative flex flex-col items-center justify-center pt-2 pb-1">
-        <svg viewBox="0 0 120 70" className="w-32 h-20 overflow-visible">
+      <div className="relative flex h-24 flex-col items-center justify-center pt-2 pb-1">
+        <svg viewBox="0 0 120 70" className="h-16 w-32 overflow-visible">
           {/* Background track arc */}
           <path
             d="M 15,65 A 45,45 0 0,1 105,65"
@@ -71,12 +71,12 @@ export function CompletionGaugeCard({
         </svg>
 
         {/* Centered value and clean non-overlapping label */}
-        <div className="absolute top-7 text-center pointer-events-none">
-          <div className="text-[23px] font-normal text-brand-ink leading-tight tabular-nums tracking-tight">
+        <div className="pointer-events-none absolute bottom-0 z-10 text-center">
+          <div className="text-[23px] font-normal leading-tight tracking-tight text-brand-ink tabular-nums">
             <AnimatedNumber value={value} />
             <span className="text-xs text-text-muted">{unit}</span>
           </div>
-          <div className="text-[8px] text-text-muted uppercase tracking-wider font-semibold mt-0.5 max-w-[90px] truncate">
+          <div className="mt-0.5 max-w-[120px] truncate text-[8px] font-semibold uppercase leading-none tracking-wider text-text-muted">
             {label}
           </div>
         </div>
