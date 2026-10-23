@@ -86,6 +86,8 @@ export function AuthProvider({ children }) {
         user,
         personas,
         authStatus,
+        isAuthenticated: authStatus === 'authenticated',
+        loading: authStatus === 'loading',
         loginAsDemoUser,
         logout,
         reloadPersonas: loadPersonas,
