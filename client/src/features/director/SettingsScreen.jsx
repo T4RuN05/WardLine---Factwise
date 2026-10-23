@@ -21,7 +21,7 @@ import { cn } from '../../lib/cn.js';
 
 export function SettingsScreen() {
   const { user } = useAuth();
-  const { refetchOverview } = useAppData();
+  const { refreshOverview } = useAppData();
 
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -89,7 +89,7 @@ export function SettingsScreen() {
 
       await api.patch('/api/settings', payload);
       toast.success('Facility settings and clinical thresholds updated successfully');
-      await refetchOverview();
+      await refreshOverview();
       await fetchSettings();
     } catch (err) {
       toast.error(err.message || 'Failed to save settings');
@@ -112,7 +112,7 @@ export function SettingsScreen() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <h2 className="text-[17px] font-medium text-brand-ink">Facility Configuration & Thresholds</h2>
             <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-blue-50 text-brand-blue border border-brand-blue/20">
               WardLine v1.0
@@ -135,7 +135,7 @@ export function SettingsScreen() {
       <form onSubmit={handleSave} className="space-y-4">
         {/* Section 1: Temperature & Clinical Bounds */}
         <div className="bg-white rounded-card border border-line/60 p-4 space-y-4 shadow-xs">
-          <div className="flex items-center gap-2 pb-2 border-b border-line/60">
+          <div className="flex flex-wrap items-center gap-2 pb-2 border-b border-line/60">
             <Thermometer className="w-4 h-4 text-brand-blue" />
             <h3 className="text-xs font-semibold text-brand-ink uppercase tracking-wider">
               Temperature Thresholds & Bounds (TMP-3, TMP-4)
@@ -185,7 +185,7 @@ export function SettingsScreen() {
 
         {/* Section 2: Discharge Eligibility Rules */}
         <div className="bg-white rounded-card border border-line/60 p-4 space-y-4 shadow-xs">
-          <div className="flex items-center gap-2 pb-2 border-b border-line/60">
+          <div className="flex flex-wrap items-center gap-2 pb-2 border-b border-line/60">
             <CheckCircle2 className="w-4 h-4 text-emerald-600" />
             <h3 className="text-xs font-semibold text-brand-ink uppercase tracking-wider">
               Discharge Protocols & Quarantine Policy (DIS-1, DIS-2)
@@ -249,7 +249,7 @@ export function SettingsScreen() {
 
         {/* Section 3: Mortality Benchmarks & Safety Triggers */}
         <div className="bg-white rounded-card border border-line/60 p-4 space-y-4 shadow-xs">
-          <div className="flex items-center gap-2 pb-2 border-b border-line/60">
+          <div className="flex flex-wrap items-center gap-2 pb-2 border-b border-line/60">
             <Activity className="w-4 h-4 text-critical" />
             <h3 className="text-xs font-semibold text-brand-ink uppercase tracking-wider">
               Mortality Safety Benchmarks (MET-1, MET-2, MET-3)

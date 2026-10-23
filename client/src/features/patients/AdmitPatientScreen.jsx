@@ -21,7 +21,7 @@ import { cn } from '../../lib/cn.js';
 export function AdmitPatientScreen() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { refetchOverview } = useAppData();
+  const { refreshOverview } = useAppData();
 
   const [freeRooms, setFreeRooms] = useState([]);
   const [loadingRooms, setLoadingRooms] = useState(true);
@@ -110,7 +110,7 @@ export function AdmitPatientScreen() {
 
       const res = await api.post('/api/patients', payload);
       toast.success(`Patient ${name} admitted successfully to Room ${roomNumber}!`);
-      await refetchOverview();
+      await refreshOverview();
       const patientId = res.data.patient?._id || res.data.patient?.id;
       if (patientId) {
         navigate(`/patients/${patientId}`);
@@ -128,7 +128,7 @@ export function AdmitPatientScreen() {
   return (
     <div className="max-w-3xl mx-auto space-y-5 animate-in fade-in duration-200">
       {/* Header with back button */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <button
             onClick={() => navigate(-1)}
@@ -315,7 +315,7 @@ export function AdmitPatientScreen() {
 
         {/* Section 3: Optional Initial Reading (ADM-5) */}
         <div className="pt-3 border-t border-line/60">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted flex items-center gap-1.5">
               <Thermometer className="w-3.5 h-3.5 text-amber-600" />
               <span>Initial Bedside Temperature (Optional)</span>

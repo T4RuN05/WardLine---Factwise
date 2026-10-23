@@ -72,7 +72,7 @@ export function DischargeQueueScreen() {
       {/* Header */}
       <div className="bg-surface-pure rounded-card p-4 border border-line/60 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
         <div>
-          <div className="flex items-center gap-2">
+        <div className="flex w-full md:w-auto flex-wrap items-center gap-2">
             <ClipboardList className="w-5 h-5 text-brand-blue" />
             <h2 className="text-base font-semibold text-brand-ink">Discharge Logistics & Checkout Queue</h2>
           </div>

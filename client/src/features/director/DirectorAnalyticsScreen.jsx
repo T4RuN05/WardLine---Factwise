@@ -78,7 +78,7 @@ export function DirectorAnalyticsScreen() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+          <div className="flex w-full sm:w-auto flex-wrap items-center gap-2">
           {/* Time Window Pills */}
           <div className="bg-white border border-line rounded-lg p-0.5 flex items-center shadow-xs">
             {['ALL', '30D', '7D'].map((w) => (

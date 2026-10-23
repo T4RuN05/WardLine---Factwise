@@ -77,7 +77,7 @@ export function BedMapScreen() {
         </div>
 
         {/* Action: Admit button with ADM-1 capacity guard */}
-        <div className="flex items-center gap-2">
+        <div className="flex w-full md:w-auto flex-wrap items-center gap-2">
           <Button
             variant={isFull ? 'secondary' : 'primary'}
             size="sm"

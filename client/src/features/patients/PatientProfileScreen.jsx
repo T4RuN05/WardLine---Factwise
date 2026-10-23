@@ -42,7 +42,7 @@ export function PatientProfileScreen() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { refetchOverview } = useAppData();
+  const { refreshOverview } = useAppData();
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -114,7 +114,7 @@ export function PatientProfileScreen() {
         notes: 'Discharge approved after completing 3 consecutive afebrile days protocol.',
       });
       toast.success(`Discharge approved for ${patient.name}`);
-      await refetchOverview();
+      await refreshOverview();
       await fetchProfile();
     } catch (err) {
       toast.error(err.message || 'Approval failed');
@@ -132,7 +132,7 @@ export function PatientProfileScreen() {
         notes: 'Patient successfully checked out. Bed released for sanitization.',
       });
       toast.success(`Discharge completed for ${patient.name}. Room ${patient.roomNumber} is now free.`);
-      await refetchOverview();
+      await refreshOverview();
       await fetchProfile();
     } catch (err) {
       toast.error(err.message || 'Checkout failed');
@@ -423,7 +423,7 @@ export function PatientProfileScreen() {
 
       {/* Tab Navigation for History Tables */}
       <div className="space-y-3">
-        <div className="flex items-center gap-1 border-b border-line pb-2">
+        <div className="flex items-center gap-1 overflow-x-auto border-b border-line pb-2">
           <button
             onClick={() => setActiveTab('readings')}
             className={cn(
@@ -730,7 +730,7 @@ export function PatientProfileScreen() {
         }}
         onSuccess={async () => {
           setIsRecordTempOpen(false);
-          await refetchOverview();
+          await refreshOverview();
           await fetchProfile();
         }}
       />
