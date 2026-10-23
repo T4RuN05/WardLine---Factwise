@@ -78,7 +78,7 @@ export function AppShell() {
   return (
     <div className="h-screen max-h-screen overflow-hidden bg-canvas p-2 md:p-3 flex items-center justify-center font-sans antialiased text-text-primary">
       {/* Outer Application Frame matching Reference x=64/y=65 radius-app */}
-      <div className="w-full max-w-[1560px] h-[calc(100vh-1rem)] md:h-[calc(100vh-1.5rem)] bg-surface rounded-app shadow-sm border border-line/50 flex overflow-hidden">
+      <div className="w-full max-w-[1560px] 2xl:max-w-none h-[calc(100vh-1rem)] md:h-[calc(100vh-1.5rem)] bg-surface rounded-app shadow-sm border border-line/50 flex overflow-hidden">
         {/* ========================================================= */}
         {/* LEFT TWO-PART SIDEBAR (Reference Section 4.1 & 4.2)      */}
         {/* ========================================================= */}
