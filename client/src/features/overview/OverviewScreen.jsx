@@ -29,6 +29,7 @@ export function OverviewScreen() {
         setPatients(combined);
       } catch (err) {
         console.error('Failed to load table:', err);
+        toast.error(err.message || 'Failed to load the patient worklist.');
       } finally {
         setLoading(false);
       }

@@ -62,6 +62,7 @@ export function PatientProfileScreen() {
       setData(res.data);
     } catch (err) {
       setError(err.message || 'Failed to load patient record');
+      toast.error(err.message || 'Failed to load the patient record.');
     } finally {
       setLoading(false);
     }

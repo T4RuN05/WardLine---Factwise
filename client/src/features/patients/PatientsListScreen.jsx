@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../../lib/cn.js';
 import { formatDate } from '../../lib/format.js';
+import { toast } from 'sonner';
 
 export function PatientsListScreen() {
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ export function PatientsListScreen() {
       setTotal(res.data.total || 0);
     } catch (err) {
       setError(err.message || 'Failed to fetch patients list');
+      toast.error(err.message || 'Failed to load the patient directory.');
     } finally {
       setLoading(false);
     }

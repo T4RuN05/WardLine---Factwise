@@ -68,6 +68,7 @@ export function RecordTemperatureSheet({
       } else {
         setErrorMsg(err.message || 'Failed to record temperature.');
       }
+      toast.error(err.message || 'Failed to record temperature.');
     } finally {
       setLoading(false);
     }
