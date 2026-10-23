@@ -145,13 +145,20 @@ export function OverviewScreen() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => {
-                if (role === 'NURSE') navigate('/nurse/worklist');
-                else if (role === 'DOCTOR') navigate('/doctor/rounds');
-                else navigate('/admin/beds');
-              }}
+              onClick={() => navigate('/nurse/worklist')}
+              className="gap-1 text-xs"
             >
-              View Full Worklist →
+              <Thermometer className="w-3.5 h-3.5 text-brand-blue" />
+              <span>Nurse Worklist →</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate('/doctor/rounds')}
+              className="gap-1 text-xs"
+            >
+              <Stethoscope className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Doctor Rounds →</span>
             </Button>
           </div>
         </div>

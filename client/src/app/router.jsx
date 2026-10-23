@@ -29,7 +29,7 @@ export const router = createBrowserRouter([
       {
         path: 'nurse/worklist',
         element: (
-          <RequireRole allowedRoles={['NURSE', 'DIRECTOR']}>
+          <RequireRole allowedRoles={['NURSE', 'DOCTOR', 'ADMIN', 'DIRECTOR']}>
             <NurseWorklistScreen />
           </RequireRole>
         ),
@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
       {
         path: 'doctor/rounds',
         element: (
-          <RequireRole allowedRoles={['DOCTOR', 'DIRECTOR']}>
+          <RequireRole allowedRoles={['NURSE', 'DOCTOR', 'ADMIN', 'DIRECTOR']}>
             <DoctorRoundsScreen />
           </RequireRole>
         ),

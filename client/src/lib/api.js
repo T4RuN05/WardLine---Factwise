@@ -45,7 +45,23 @@ async function request(endpoint, options = {}) {
       );
     }
 
-    return payload?.data !== undefined ? payload.data : payload;
+    if (payload?.data !== undefined) {
+      if (typeof payload.data === 'object' && payload.data !== null) {
+        if (!Array.isArray(payload.data)) {
+          return {
+            ...payload.data,
+            data: payload.data,
+            success: payload.success,
+            meta: payload.meta,
+          };
+        } else {
+          payload.data.data = payload.data;
+          return payload.data;
+        }
+      }
+      return payload.data;
+    }
+    return payload;
   } catch (err) {
     if (err instanceof ApiError) throw err;
     throw new ApiError(err.message || 'Network error connecting to API.', 'NETWORK_ERROR', 0);

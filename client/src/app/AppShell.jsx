@@ -60,10 +60,10 @@ export function AppShell() {
   // Navigation Items with role highlighting
   const navItems = [
     { to: '/', label: 'Overview', icon: Grid, roles: ['NURSE', 'DOCTOR', 'ADMIN', 'DIRECTOR'] },
-    { to: '/nurse/worklist', label: 'Nurse Worklist', icon: Thermometer, roles: ['NURSE', 'DIRECTOR'] },
-    { to: '/doctor/rounds', label: 'Doctor Rounds', icon: Stethoscope, roles: ['DOCTOR', 'DIRECTOR'] },
+    { to: '/nurse/worklist', label: 'Nurse Worklist', icon: Thermometer, roles: ['NURSE', 'DOCTOR', 'ADMIN', 'DIRECTOR'] },
+    { to: '/doctor/rounds', label: 'Doctor Rounds', icon: Stethoscope, roles: ['NURSE', 'DOCTOR', 'ADMIN', 'DIRECTOR'] },
     { to: '/admin/beds', label: 'Bed Map (74 Rooms)', icon: Layers, roles: ['NURSE', 'DOCTOR', 'ADMIN', 'DIRECTOR'] },
-    { to: '/admin/discharges', label: 'Discharge Queue', icon: ClipboardList, roles: ['DOCTOR', 'ADMIN', 'DIRECTOR'] },
+    { to: '/admin/discharges', label: 'Discharge Queue', icon: ClipboardList, roles: ['NURSE', 'DOCTOR', 'ADMIN', 'DIRECTOR'] },
     { to: '/patients', label: 'Patient Directory', icon: Users, roles: ['NURSE', 'DOCTOR', 'ADMIN', 'DIRECTOR'] },
     { to: '/director/analytics', label: 'Director Analytics', icon: Activity, roles: ['DIRECTOR'] },
   ];
@@ -200,9 +200,9 @@ export function AppShell() {
                         : 'Ready for Checkout'
                     }
                     onClick={() => {
-                      if (role === 'NURSE') navigate('/nurse/worklist');
-                      else if (role === 'DOCTOR') navigate('/doctor/rounds');
-                      else navigate('/admin/discharges');
+                      if (role === 'DOCTOR') navigate('/doctor/rounds');
+                      else if (role === 'ADMIN') navigate('/admin/discharges');
+                      else navigate('/nurse/worklist');
                     }}
                   />
 
@@ -366,12 +366,12 @@ export function AppShell() {
           </div>
 
           {/* Child Route Screen Viewport */}
-          <div className="flex-1 min-h-0">
+          <div className="flex-1 w-full pb-6">
             <Outlet />
           </div>
 
           {/* Subdued Prototype Notice Footer */}
-          <footer className="pt-4 mt-6 border-t border-line/40 flex items-center justify-between text-[10px] text-text-muted shrink-0">
+          <footer className="pt-6 pb-2 mt-auto border-t border-line/40 flex items-center justify-between text-[10px] text-text-muted shrink-0">
             <span>Prototype for evaluation. Uses simulated data. Not for clinical use.</span>
             <div className="flex items-center gap-3">
               <NavLink to="/audit" className="hover:underline">Audit Log</NavLink>

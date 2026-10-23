@@ -1,6 +1,7 @@
 import React from 'react';
 import { cn } from '../../lib/cn.js';
 import { ArrowUpRight, MoreHorizontal } from 'lucide-react';
+import { AnimatedNumber } from './AnimatedNumber.jsx';
 
 export function MetricCard({
   title,
@@ -19,7 +20,7 @@ export function MetricCard({
   return (
     <div
       className={cn(
-        'bg-surface-pure rounded-card p-3.5 border border-line/60 flex flex-col justify-between transition-shadow hover:shadow-xs',
+        'bg-surface-pure rounded-card p-3.5 border border-line/60 flex flex-col justify-between transition-all hover:shadow-xs animate-in fade-in slide-in-from-bottom-2 duration-500 fill-mode-both',
         className
       )}
     >
@@ -38,10 +39,10 @@ export function MetricCard({
         )}
       </div>
 
-      {/* Main KPI value & badge */}
+      {/* Main KPI value & badge with Animated Counter */}
       <div className="my-1.5 flex items-baseline gap-2 flex-wrap">
         <span className="text-[27px] font-normal leading-tight text-brand-ink tabular-nums tracking-tight">
-          {value}
+          <AnimatedNumber value={value} />
         </span>
         {unit && (
           <span className="text-[10px] uppercase font-semibold text-text-muted bg-surface-soft px-1.5 py-0.5 rounded">
@@ -69,7 +70,7 @@ export function MetricCard({
         {progressPercent !== null && (
           <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-1.5">
             <div
-              className={cn('h-full rounded-full transition-all duration-500', progressColor)}
+              className={cn('h-full rounded-full transition-all duration-700 ease-out', progressColor)}
               style={{ width: `${Math.min(100, Math.max(0, progressPercent))}%` }}
             />
           </div>
