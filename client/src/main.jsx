@@ -12,7 +12,19 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <AuthProvider>
       <AppDataProvider>
         <RouterProvider router={router} />
-        <Toaster position="top-right" richColors closeButton />
+        <Toaster
+          position="top-right"
+          theme="light"
+          richColors
+          closeButton
+          expand
+          visibleToasts={5}
+          duration={5000}
+          style={{ zIndex: 100000 }}
+          toastOptions={{
+            className: 'font-sans',
+          }}
+        />
       </AppDataProvider>
     </AuthProvider>
   </React.StrictMode>
