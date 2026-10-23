@@ -21,6 +21,8 @@ import {
   ChevronDown,
   PanelLeftClose,
   PanelLeftOpen,
+  Menu,
+  X,
 } from 'lucide-react';
 import { cn } from '../lib/cn.js';
 import { MiniCalendar } from '../components/ui/MiniCalendar.jsx';
@@ -256,10 +258,11 @@ export function AppShell() {
             <div className="flex items-start sm:items-center gap-2.5 min-w-0">
               <button
                 onClick={() => setIsMobileNavOpen(true)}
-                className="lg:hidden flex shrink-0 items-center justify-center w-8 h-8 rounded-lg border border-line bg-white text-text-muted hover:text-brand-ink transition-colors shadow-xs"
+                className="lg:hidden flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar text-brand-blue shadow-xs transition-colors hover:bg-slate-800 hover:text-white"
                 title="Open navigation"
+                aria-label="Open navigation"
               >
-                <PanelLeftOpen className="w-4 h-4 text-brand-blue" />
+                <Menu className="h-4 w-4" />
               </button>
               <button
                 onClick={toggleSidebar}
@@ -422,8 +425,9 @@ export function AppShell() {
                 onClick={closeMobileNav}
                 className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-white/10 hover:text-white"
                 title="Close navigation"
+                aria-label="Close navigation"
               >
-                <PanelLeftClose className="h-4 w-4" />
+                <X className="h-4 w-4" />
               </button>
             </div>
             <nav className="flex-1 space-y-1 overflow-y-auto p-3">
