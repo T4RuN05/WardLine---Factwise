@@ -117,7 +117,7 @@ export function NurseWorklistScreen() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex w-full md:w-auto flex-wrap items-center gap-2">
           <Button
             variant="outline"
             size="sm"
@@ -184,7 +184,7 @@ export function NurseWorklistScreen() {
         </div>
 
         {/* Search and Ward Selector */}
-        <div className="flex items-center gap-2">
+        <div className="flex w-full md:w-auto flex-wrap items-center gap-2">
           <div className="relative">
             <Search className="w-3.5 h-3.5 text-text-muted absolute left-2.5 top-1/2 -translate-y-1/2" />
             <input
@@ -192,7 +192,7 @@ export function NurseWorklistScreen() {
               placeholder="Search name, room or MRN..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="text-xs pl-8 pr-3 py-1.5 rounded-lg border border-line bg-white focus:outline-none focus:ring-1 focus:ring-brand-blue w-48 md:w-56"
+              className="text-xs pl-8 pr-3 py-1.5 rounded-lg border border-line bg-white focus:outline-none focus:ring-1 focus:ring-brand-blue w-full sm:w-48 md:w-56"
             />
           </div>
 

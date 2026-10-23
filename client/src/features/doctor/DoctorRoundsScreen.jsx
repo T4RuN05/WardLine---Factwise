@@ -95,7 +95,7 @@ export function DoctorRoundsScreen() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-xs">
+        <div className="flex w-full md:w-auto flex-wrap items-center gap-2 text-xs">
           <span className="text-text-muted">Visits Today:</span>
           <span className="font-bold text-brand-ink tabular-nums">
             {overview?.tasks?.visits?.done ?? 18} of {overview?.rooms?.occupied ?? 74} Done
@@ -135,7 +135,7 @@ export function DoctorRoundsScreen() {
             placeholder="Search patient or room..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="text-xs pl-8 pr-3 py-1.5 rounded-lg border border-line bg-white focus:outline-none focus:ring-1 focus:ring-brand-blue w-48 md:w-56"
+            className="text-xs pl-8 pr-3 py-1.5 rounded-lg border border-line bg-white focus:outline-none focus:ring-1 focus:ring-brand-blue w-full sm:w-48 md:w-56"
           />
         </div>
       </div>

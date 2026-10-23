@@ -9,6 +9,7 @@ import { getToday, getNow } from './clock.js';
 import { subDays, diffDays } from '../domain/dates.js';
 import { getTaskStatus, sortDoctorRounds, TaskStatus } from '../domain/tasks.js';
 import { computeStreak } from '../domain/eligibility.js';
+import { DeathRecord } from '../models/DeathRecord.js';
 import { computeMortality } from '../domain/metrics.js';
 
 export async function getOverview() {

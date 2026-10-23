@@ -36,6 +36,7 @@ export function AppShell() {
   const location = useLocation();
 
   const [isDemoDrawerOpen, setIsDemoDrawerOpen] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [showPersonaMenu, setShowPersonaMenu] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
     try {
@@ -54,6 +55,8 @@ export function AppShell() {
       return next;
     });
   };
+
+  const closeMobileNav = () => setIsMobileNavOpen(false);
 
   const role = user?.role || 'NURSE';
 
@@ -76,9 +79,9 @@ export function AppShell() {
   };
 
   return (
-    <div className="h-screen max-h-screen overflow-hidden bg-canvas p-2 md:p-3 flex items-center justify-center font-sans antialiased text-text-primary">
+    <div className="h-screen max-h-screen overflow-hidden bg-canvas p-0 sm:p-2 md:p-3 flex items-center justify-center font-sans antialiased text-text-primary">
       {/* Outer Application Frame matching Reference x=64/y=65 radius-app */}
-      <div className="w-full max-w-[1560px] 2xl:max-w-none h-[calc(100vh-1rem)] md:h-[calc(100vh-1.5rem)] bg-surface rounded-app shadow-sm border border-line/50 flex overflow-hidden">
+      <div className="w-full max-w-[1560px] 2xl:max-w-none h-screen sm:h-[calc(100vh-1rem)] md:h-[calc(100vh-1.5rem)] bg-surface rounded-none sm:rounded-app shadow-sm border-0 sm:border sm:border-line/50 flex overflow-hidden">
         {/* ========================================================= */}
         {/* LEFT TWO-PART SIDEBAR (Reference Section 4.1 & 4.2)      */}
         {/* ========================================================= */}
@@ -248,9 +251,16 @@ export function AppShell() {
         {/* ========================================================= */}
         <main className="flex-1 flex flex-col min-w-0 bg-surface overflow-y-auto p-4 md:p-6 lg:p-7 h-full min-h-0">
           {/* Main Top Header (Reference Section 4.4) */}
-          <header className="flex items-center justify-between gap-4 pb-4 mb-3 border-b border-line/60 shrink-0">
+          <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-3 border-b border-line/60 shrink-0">
             {/* Left: Collapse toggle + Greeting + Role Identity */}
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-start sm:items-center gap-2.5 min-w-0">
+              <button
+                onClick={() => setIsMobileNavOpen(true)}
+                className="lg:hidden flex shrink-0 items-center justify-center w-8 h-8 rounded-lg border border-line bg-white text-text-muted hover:text-brand-ink transition-colors shadow-xs"
+                title="Open navigation"
+              >
+                <PanelLeftOpen className="w-4 h-4 text-brand-blue" />
+              </button>
               <button
                 onClick={toggleSidebar}
                 className="hidden lg:flex items-center justify-center w-8 h-8 rounded-lg border border-line bg-white text-text-muted hover:text-brand-ink transition-colors shadow-xs"
@@ -273,7 +283,7 @@ export function AppShell() {
             </div>
 
             {/* Right: Persona Switcher, Simulated Date, Demo Drawer Trigger, Search */}
-            <div className="flex items-center gap-2">
+            <div className="flex w-full sm:w-auto flex-wrap items-center justify-end gap-2">
               {/* Demo Persona Switcher Dropdown */}
               <div className="relative">
                 <button
@@ -335,8 +345,8 @@ export function AppShell() {
           />
 
           {/* Live Ward Capacity Strip */}
-          <div className="flex items-center justify-between text-xs py-1.5 px-3 bg-white/70 border border-line/50 rounded-lg mb-3 shrink-0">
-            <div className="flex items-center gap-4 flex-wrap text-[11px]">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs py-1.5 px-3 bg-white/70 border border-line/50 rounded-lg mb-3 shrink-0">
+            <div className="flex items-center gap-3 sm:gap-4 flex-wrap text-[11px]">
               <div>
                 <span className="text-text-muted">Temperatures Today:</span>{' '}
                 <span className="font-semibold text-brand-ink tabular-nums">
@@ -371,7 +381,7 @@ export function AppShell() {
           </div>
 
           {/* Subdued Prototype Notice Footer */}
-          <footer className="pt-6 pb-2 mt-auto border-t border-line/40 flex items-center justify-between text-[10px] text-text-muted shrink-0">
+          <footer className="pt-6 pb-2 mt-auto border-t border-line/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[10px] text-text-muted shrink-0">
             <span>Prototype for evaluation. Uses simulated data. Not for clinical use.</span>
             <div className="flex items-center gap-3">
               <NavLink to="/audit" className="hover:underline">Audit Log</NavLink>
@@ -388,6 +398,94 @@ export function AppShell() {
           </footer>
         </main>
       </div>
+
+      {/* Mobile navigation drawer */}
+      {isMobileNavOpen && (
+        <>
+          <button
+            aria-label="Close navigation"
+            className="fixed inset-0 z-40 bg-slate-950/45 lg:hidden"
+            onClick={closeMobileNav}
+          />
+          <aside className="fixed inset-y-0 left-0 z-50 flex w-[min(86vw,320px)] flex-col bg-sidebar text-white shadow-2xl lg:hidden animate-in slide-in-from-left duration-200">
+            <div className="flex items-center justify-between border-b border-white/10 px-4 py-4">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-blue/20 text-brand-blue">
+                  <HeartPulse className="h-5 w-5" />
+                </div>
+                <div>
+                  <div className="text-sm font-semibold">WardLine</div>
+                  <div className="text-[10px] text-slate-400">Facility workspace</div>
+                </div>
+              </div>
+              <button
+                onClick={closeMobileNav}
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-white/10 hover:text-white"
+                title="Close navigation"
+              >
+                <PanelLeftClose className="h-4 w-4" />
+              </button>
+            </div>
+            <nav className="flex-1 space-y-1 overflow-y-auto p-3">
+              {visibleNav.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    onClick={closeMobileNav}
+                    className={({ isActive }) => cn(
+                      'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors',
+                      isActive
+                        ? 'bg-brand-blue text-white shadow-xs'
+                        : 'text-slate-300 hover:bg-white/10 hover:text-white'
+                    )}
+                  >
+                    <Icon className="h-4 w-4 shrink-0" />
+                    <span>{item.label}</span>
+                  </NavLink>
+                );
+              })}
+              <div className="my-3 border-t border-white/10" />
+              <NavLink
+                to="/audit"
+                onClick={closeMobileNav}
+                className={({ isActive }) => cn(
+                  'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors',
+                  isActive ? 'bg-brand-blue text-white' : 'text-slate-300 hover:bg-white/10 hover:text-white'
+                )}
+              >
+                <ShieldCheck className="h-4 w-4" />
+                <span>Audit Trail</span>
+              </NavLink>
+              <NavLink
+                to="/director/settings"
+                onClick={closeMobileNav}
+                className={({ isActive }) => cn(
+                  'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors',
+                  isActive ? 'bg-brand-blue text-white' : 'text-slate-300 hover:bg-white/10 hover:text-white'
+                )}
+              >
+                <Settings className="h-4 w-4" />
+                <span>Settings</span>
+              </NavLink>
+            </nav>
+            <div className="border-t border-white/10 p-4">
+              <div className="mb-3 min-w-0">
+                <div className="truncate text-xs font-semibold text-white">{user?.name || 'Staff'}</div>
+                <div className="truncate text-[10px] text-slate-400">{user?.title || user?.role || 'Facility staff'}</div>
+              </div>
+              <button
+                onClick={() => { closeMobileNav(); logout(); }}
+                className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-xs text-slate-400 hover:bg-white/10 hover:text-fever"
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </aside>
+        </>
+      )}
 
       {/* Floating Demo Drawer Modal */}
       <DemoDrawer

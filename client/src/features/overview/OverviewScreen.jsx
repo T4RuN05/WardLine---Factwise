@@ -138,7 +138,7 @@ export function OverviewScreen() {
             <h2 className="text-sm font-semibold text-brand-ink">Today's Patient Worklist</h2>
             <p className="text-[11px] text-text-muted">Real-time status across rooms and wards</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex w-full md:w-auto flex-wrap items-center gap-2">
             <span className="text-[10px] bg-slate-50 border border-line px-2.5 py-1 rounded-md text-text-secondary font-medium">
               Ward: All ▾
             </span>

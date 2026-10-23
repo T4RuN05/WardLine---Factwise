@@ -81,7 +81,7 @@ export function DischargeQueueScreen() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 text-xs">
+          <div className="flex flex-wrap items-center gap-3 text-xs">
           <span className="text-text-muted">
             Awaiting Approval:{' '}
             <strong className="text-brand-ink">{queue.counts?.awaitingApproval ?? 0}</strong>

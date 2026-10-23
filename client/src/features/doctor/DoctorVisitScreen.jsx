@@ -351,7 +351,7 @@ export function DoctorVisitScreen() {
                 <label className="text-xs font-semibold text-brand-ink block mb-1.5">
                   Clinical Status (VIS-4)
                 </label>
-                <div className="grid grid-cols-4 gap-1 p-1 bg-slate-100 rounded-xl text-xs font-medium">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 p-1 bg-slate-100 rounded-xl text-xs font-medium">
                   {['STABLE', 'IMPROVING', 'WORSENING', 'CRITICAL'].map((st) => (
                     <button
                       key={st}
