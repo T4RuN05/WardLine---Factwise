@@ -13,8 +13,8 @@
 |---|---|:---:|:---:|---|
 | **Phase 0** | Workspace Setup & Repository Scaffold | [x] Completed | 2026-10-23 | Git init, server & client skeletons, dependencies, Vite + Tailwind config |
 | **Phase 1** | Pure Domain Core & Unit Tests | [x] Completed | 2026-10-23 | 39 Vitest domain tests passing: dates, temperature, tasks, eligibility, metrics, permissions |
-| **Phase 2** | MongoDB Models & Schema Indexes | [x] In Progress | - | Mongoose schemas, compound unique indexes, transaction handling |
-| **Phase 3** | Backend API, Middleware, Auth & Services | [ ] Pending | - | Controllers, routes, JWT auth, validation, mutation services, audit logging |
+| **Phase 2** | MongoDB Models & Schema Indexes | [x] Completed | 2026-10-23 | All 9 Mongoose models, compound unique partial indexes for active readings and daily visits, transaction support |
+| **Phase 3** | Backend API, Middleware, Auth & Services | [x] In Progress | - | Controllers, routes, JWT auth, validation, mutation services, audit logging |
 | **Phase 4** | Synthetic Seed & Demo Simulation Tools | [ ] Pending | - | Deterministic seed (74 patients, 50 closed cases, 4 roles), clock advance, auto-fill, reset |
 | **Phase 5** | Frontend Shell, Design System & Native State | [ ] Pending | - | Tailwind tokens, typography, AppShell, AlertBanner, AuthContext, AppDataContext |
 | **Phase 6** | Role Workflow Screens (Nurse, Doctor, Admin) | [ ] Pending | - | Nurse worklist, Bedside sheet, Doctor rounds, Visit chart, Bed map (74 tiles), Discharge queue, Patient admission |
@@ -44,16 +44,17 @@
 - [x] Vitest test suite covering all rule IDs (TMP, TSK, VIS, DIS, DEC, MET, ACL) — 39 tests passing!
 
 ### Phase 2: MongoDB Models & Database Configuration (WP2)
-- [ ] MongoDB connection with transaction session helper (`server/src/config/database.js`)
-- [ ] `User.js` model
-- [ ] `Room.js` model (74 rooms, unique number)
-- [ ] `Patient.js` model (MRN sequential, status lifecycle)
-- [ ] `TemperatureReading.js` model (unique partial compound index on `{ patientId, date }` where `isActive: true`)
-- [ ] `DoctorVisit.js` model (unique compound index on `{ patientId, date }`)
-- [ ] `DischargeRecord.js` model (eligibility cycle tracking)
-- [ ] `DeathRecord.js` model
-- [ ] `FacilitySettings.js` model
-- [ ] `AuditEvent.js` model (append-only)
+- [x] MongoDB connection with transaction session helper (`server/src/config/database.js`)
+- [x] `User.js` model
+- [x] `Room.js` model (74 rooms, unique number)
+- [x] `Patient.js` model (MRN sequential, status lifecycle)
+- [x] `TemperatureReading.js` model (unique partial compound index on `{ patientId, date }` where `isActive: true`)
+- [x] `DoctorVisit.js` model (unique compound index on `{ patientId, date }`)
+- [x] `DischargeRecord.js` model (eligibility cycle tracking)
+- [x] `DeathRecord.js` model (unique patientId)
+- [x] `FacilitySettings.js` model
+- [x] `AuditEvent.js` model (append-only)
+- [x] Schema & index integration tests passing
 
 ### Phase 3: Backend API, Middleware, Auth & Services (WP3 & WP4)
 - [ ] Clock service (`clock.js`) supporting simulated time
