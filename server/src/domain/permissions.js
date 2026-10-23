@@ -1,0 +1,94 @@
+export const Roles = {
+  NURSE: 'NURSE',
+  DOCTOR: 'DOCTOR',
+  ADMIN: 'ADMIN',
+  DIRECTOR: 'DIRECTOR',
+};
+
+export const Actions = {
+  VIEW_OVERVIEW: 'VIEW_OVERVIEW',
+  VIEW_BED_MAP: 'VIEW_BED_MAP',
+  VIEW_PATIENTS: 'VIEW_PATIENTS',
+  ADMIT_PATIENT: 'ADMIT_PATIENT',
+  UPDATE_PATIENT_DEMOGRAPHICS: 'UPDATE_PATIENT_DEMOGRAPHICS',
+  RECORD_TEMPERATURE: 'RECORD_TEMPERATURE',
+  CORRECT_TEMPERATURE: 'CORRECT_TEMPERATURE',
+  VIEW_NURSE_WORKLIST: 'VIEW_NURSE_WORKLIST',
+  VIEW_DOCTOR_ROUNDS: 'VIEW_DOCTOR_ROUNDS',
+  LOG_DOCTOR_VISIT: 'LOG_DOCTOR_VISIT',
+  DOCTOR_OVERRIDE_TEMPERATURE: 'DOCTOR_OVERRIDE_TEMPERATURE',
+  APPROVE_DISCHARGE: 'APPROVE_DISCHARGE',
+  REVOKE_DISCHARGE: 'REVOKE_DISCHARGE',
+  COMPLETE_DISCHARGE: 'COMPLETE_DISCHARGE',
+  RECORD_DEATH: 'RECORD_DEATH',
+  VIEW_DISCHARGE_QUEUE: 'VIEW_DISCHARGE_QUEUE',
+  VIEW_ALERT_BANNER: 'VIEW_ALERT_BANNER',
+  VIEW_FULL_ANALYTICS: 'VIEW_FULL_ANALYTICS',
+  EDIT_SETTINGS: 'EDIT_SETTINGS',
+  VIEW_AUDIT_LOG: 'VIEW_AUDIT_LOG',
+  USE_DEMO_TOOLS: 'USE_DEMO_TOOLS',
+};
+
+const RolePermissions = {
+  [Roles.NURSE]: new Set([
+    Actions.VIEW_OVERVIEW,
+    Actions.VIEW_BED_MAP,
+    Actions.VIEW_PATIENTS,
+    Actions.ADMIT_PATIENT,
+    Actions.UPDATE_PATIENT_DEMOGRAPHICS,
+    Actions.RECORD_TEMPERATURE,
+    Actions.CORRECT_TEMPERATURE,
+    Actions.VIEW_NURSE_WORKLIST,
+    Actions.VIEW_ALERT_BANNER,
+    Actions.USE_DEMO_TOOLS,
+  ]),
+  [Roles.DOCTOR]: new Set([
+    Actions.VIEW_OVERVIEW,
+    Actions.VIEW_BED_MAP,
+    Actions.VIEW_PATIENTS,
+    Actions.VIEW_DOCTOR_ROUNDS,
+    Actions.LOG_DOCTOR_VISIT,
+    Actions.DOCTOR_OVERRIDE_TEMPERATURE,
+    Actions.APPROVE_DISCHARGE,
+    Actions.REVOKE_DISCHARGE,
+    Actions.RECORD_DEATH,
+    Actions.VIEW_DISCHARGE_QUEUE,
+    Actions.VIEW_ALERT_BANNER,
+    Actions.USE_DEMO_TOOLS,
+  ]),
+  [Roles.ADMIN]: new Set([
+    Actions.VIEW_OVERVIEW,
+    Actions.VIEW_BED_MAP,
+    Actions.VIEW_PATIENTS,
+    Actions.ADMIT_PATIENT,
+    Actions.UPDATE_PATIENT_DEMOGRAPHICS,
+    Actions.COMPLETE_DISCHARGE,
+    Actions.VIEW_DISCHARGE_QUEUE,
+    Actions.VIEW_ALERT_BANNER,
+    Actions.VIEW_AUDIT_LOG,
+    Actions.USE_DEMO_TOOLS,
+  ]),
+  [Roles.DIRECTOR]: new Set([
+    Actions.VIEW_OVERVIEW,
+    Actions.VIEW_BED_MAP,
+    Actions.VIEW_PATIENTS,
+    Actions.VIEW_NURSE_WORKLIST,
+    Actions.VIEW_DOCTOR_ROUNDS,
+    Actions.VIEW_DISCHARGE_QUEUE,
+    Actions.VIEW_ALERT_BANNER,
+    Actions.VIEW_FULL_ANALYTICS,
+    Actions.EDIT_SETTINGS,
+    Actions.VIEW_AUDIT_LOG,
+    Actions.USE_DEMO_TOOLS,
+  ]),
+};
+
+/**
+ * Checks if a given role is allowed to perform an action (ACL-1).
+ */
+export function can(role, action) {
+  if (!role || !action) return false;
+  const permissions = RolePermissions[role];
+  if (!permissions) return false;
+  return permissions.has(action);
+}

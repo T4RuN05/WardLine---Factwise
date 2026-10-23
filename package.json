@@ -1,0 +1,17 @@
+{
+  "name": "wardline",
+  "version": "1.0.0",
+  "description": "Quarantine & Treatment Facility Management Prototype for Factwise Assessment",
+  "private": true,
+  "scripts": {
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "seed": "npm run seed --prefix server",
+    "test:server": "npm test --prefix server",
+    "test:client": "npm test --prefix client",
+    "test": "npm run test:server && npm run test:client"
+  },
+  "keywords": ["healthcare", "quarantine", "facility-management", "wardline"],
+  "author": "Antigravity Pair",
+  "license": "ISC"
+}
