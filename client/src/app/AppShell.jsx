@@ -19,6 +19,8 @@ import {
   Sparkles,
   Layers,
   ChevronDown,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from 'lucide-react';
 import { cn } from '../lib/cn.js';
 import { MiniCalendar } from '../components/ui/MiniCalendar.jsx';
@@ -35,6 +37,23 @@ export function AppShell() {
 
   const [isDemoDrawerOpen, setIsDemoDrawerOpen] = useState(false);
   const [showPersonaMenu, setShowPersonaMenu] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
+    try {
+      return localStorage.getItem('wardline_sidebar_collapsed') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem('wardline_sidebar_collapsed', String(next));
+      } catch {}
+      return next;
+    });
+  };
 
   const role = user?.role || 'NURSE';
 
@@ -57,17 +76,22 @@ export function AppShell() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas p-2 md:p-4 lg:p-6 flex items-center justify-center font-sans antialiased text-text-primary">
+    <div className="h-screen max-h-screen overflow-hidden bg-canvas p-2 md:p-3 flex items-center justify-center font-sans antialiased text-text-primary">
       {/* Outer Application Frame matching Reference x=64/y=65 radius-app */}
-      <div className="w-full max-w-[1440px] min-h-[850px] bg-surface rounded-app shadow-sm border border-line/50 flex overflow-hidden">
+      <div className="w-full max-w-[1560px] h-[calc(100vh-1rem)] md:h-[calc(100vh-1.5rem)] bg-surface rounded-app shadow-sm border border-line/50 flex overflow-hidden">
         {/* ========================================================= */}
         {/* LEFT TWO-PART SIDEBAR (Reference Section 4.1 & 4.2)      */}
         {/* ========================================================= */}
-        <aside className="hidden lg:flex bg-sidebar text-white w-[300px] xl:w-[320px] shrink-0 m-2.5 rounded-sidebar flex-col justify-between overflow-hidden shadow-md">
-          <div className="flex h-full">
+        <aside
+          className={cn(
+            'hidden lg:flex bg-sidebar text-white shrink-0 my-2 ml-2 rounded-sidebar flex-col overflow-hidden shadow-md transition-all duration-300 ease-in-out',
+            isSidebarCollapsed ? 'w-[58px]' : 'w-[280px] xl:w-[310px]'
+          )}
+        >
+          <div className="flex h-full min-h-0">
             {/* 1. Icon Rail (Reference Section 4.2) */}
-            <div className="w-[58px] bg-sidebar border-r border-white/5 py-4 flex flex-col items-center justify-between shrink-0">
-              <div className="flex flex-col items-center gap-3">
+            <div className="w-[58px] bg-sidebar border-r border-white/5 py-3 flex flex-col items-center justify-between shrink-0 h-full">
+              <div className="flex flex-col items-center gap-2">
                 {/* Brand Logo Mark */}
                 <div
                   onClick={() => navigate('/')}
@@ -77,8 +101,21 @@ export function AppShell() {
                   <HeartPulse className="w-5 h-5 text-brand-blue" />
                 </div>
 
+                {/* Sidebar Collapse/Expand Toggle Button in rail */}
+                <button
+                  onClick={toggleSidebar}
+                  title={isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                  className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  {isSidebarCollapsed ? (
+                    <PanelLeftOpen className="w-4 h-4 text-brand-blue" />
+                  ) : (
+                    <PanelLeftClose className="w-4 h-4 text-slate-400" />
+                  )}
+                </button>
+
                 {/* Primary Navigation Icons */}
-                <div className="flex flex-col items-center gap-1.5 mt-2">
+                <div className="flex flex-col items-center gap-1.5 mt-1">
                   {visibleNav.map((item) => {
                     const Icon = item.icon;
                     const isActive = location.pathname === item.to;
@@ -140,82 +177,99 @@ export function AppShell() {
             </div>
 
             {/* 2. Sidebar Context Column (Calendar + Daily Capsule + Patient List) */}
-            <div className="flex-1 p-3.5 flex flex-col justify-between overflow-y-auto">
-              <div className="space-y-3">
-                {/* Mini Calendar Card */}
-                <MiniCalendar activeDate={overview?.today || new Date()} />
+            {!isSidebarCollapsed && (
+              <div className="flex-1 p-3 flex flex-col justify-between h-full min-h-0 overflow-hidden animate-in fade-in duration-200">
+                <div className="space-y-2.5 overflow-y-auto pr-0.5 min-h-0">
+                  {/* Mini Calendar Card */}
+                  <MiniCalendar activeDate={overview?.today || new Date()} />
 
-                {/* Daily Summary Capsule */}
-                <DailySummaryCard
-                  count={
-                    role === 'NURSE'
-                      ? overview?.tasks?.temperatures?.pending ?? 36
-                      : role === 'DOCTOR'
-                      ? overview?.tasks?.visits?.pending ?? 56
-                      : overview?.discharges?.readyForCheckout ?? 3
-                  }
-                  label={
-                    role === 'NURSE'
-                      ? 'Checks Pending'
-                      : role === 'DOCTOR'
-                      ? 'Visits Pending'
-                      : 'Ready for Checkout'
-                  }
-                  onClick={() => {
-                    if (role === 'NURSE') navigate('/nurse/worklist');
-                    else if (role === 'DOCTOR') navigate('/doctor/rounds');
-                    else navigate('/admin/discharges');
-                  }}
-                />
-
-                {/* Active Ward Context Feed */}
-                <div>
-                  <div className="flex items-center justify-between px-1 mb-1 text-[11px] font-semibold text-slate-400">
-                    <span>Active Cases</span>
-                    <span className="text-[10px] text-brand-blue">
-                      {overview?.rooms?.occupied || 74} in Ward
-                    </span>
-                  </div>
-                  <SidebarPatientList
-                    patients={[
-                      { id: '1', roomNumber: '03', name: 'Asha Verma', sublabel: 'Fever 38.6 °C', todayReading: { isFever: true, valueC: 38.6 } },
-                      { id: '2', roomNumber: '12', name: 'S. Iyer', sublabel: '3/3 Afebrile', todayReading: { isFever: false, valueC: 37.1 } },
-                      { id: '3', roomNumber: '41', name: 'R. Menon', sublabel: 'Critical 40.2 °C', todayReading: { isFever: true, isCritical: true, valueC: 40.2 } },
-                      { id: '4', roomNumber: '24', name: 'Vikram Joshi', sublabel: 'Pending check', todayReading: null },
-                    ]}
-                    onSelectPatient={(p) => navigate(`/patients`)}
+                  {/* Daily Summary Capsule */}
+                  <DailySummaryCard
+                    count={
+                      role === 'NURSE'
+                        ? overview?.tasks?.temperatures?.pending ?? 36
+                        : role === 'DOCTOR'
+                        ? overview?.tasks?.visits?.pending ?? 56
+                        : overview?.discharges?.readyForCheckout ?? 3
+                    }
+                    label={
+                      role === 'NURSE'
+                        ? 'Checks Pending'
+                        : role === 'DOCTOR'
+                        ? 'Visits Pending'
+                        : 'Ready for Checkout'
+                    }
+                    onClick={() => {
+                      if (role === 'NURSE') navigate('/nurse/worklist');
+                      else if (role === 'DOCTOR') navigate('/doctor/rounds');
+                      else navigate('/admin/discharges');
+                    }}
                   />
-                </div>
-              </div>
 
-              {/* Bottom Persona Card */}
-              <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs">
-                <div className="min-w-0">
-                  <div className="font-semibold text-white truncate text-[11px]">{user?.name}</div>
-                  <div className="text-[10px] text-slate-400 truncate">{user?.title || user?.role}</div>
+                  {/* Active Ward Context Feed */}
+                  <div>
+                    <div className="flex items-center justify-between px-1 mb-1 text-[11px] font-semibold text-slate-400">
+                      <span>Active Cases</span>
+                      <span className="text-[10px] text-brand-blue">
+                        {overview?.rooms?.occupied || 74} in Ward
+                      </span>
+                    </div>
+                    <div className="max-h-[140px] xl:max-h-[180px] overflow-y-auto">
+                      <SidebarPatientList
+                        patients={[
+                          { id: '1', roomNumber: '03', name: 'Asha Verma', sublabel: 'Fever 38.6 °C', todayReading: { isFever: true, valueC: 38.6 } },
+                          { id: '2', roomNumber: '12', name: 'S. Iyer', sublabel: '3/3 Afebrile', todayReading: { isFever: false, valueC: 37.1 } },
+                          { id: '3', roomNumber: '41', name: 'R. Menon', sublabel: 'Critical 40.2 °C', todayReading: { isFever: true, isCritical: true, valueC: 40.2 } },
+                          { id: '4', roomNumber: '24', name: 'Vikram Joshi', sublabel: 'Pending check', todayReading: null },
+                        ]}
+                        onSelectPatient={(p) => navigate(`/patients`)}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-brand-blue/20 text-brand-blue font-bold">
-                  {user?.role}
-                </span>
+
+                {/* Bottom Persona Card */}
+                <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs shrink-0 mt-2">
+                  <div className="min-w-0">
+                    <div className="font-semibold text-white truncate text-[11px]">{user?.name}</div>
+                    <div className="text-[10px] text-slate-400 truncate">{user?.title || user?.role}</div>
+                  </div>
+                  <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-brand-blue/20 text-brand-blue font-bold">
+                    {user?.role}
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </aside>
 
         {/* ========================================================= */}
         {/* MAIN WORKSPACE (Reference Section 4.4 & 5.1)               */}
         {/* ========================================================= */}
-        <main className="flex-1 flex flex-col min-w-0 bg-surface overflow-y-auto p-4 md:p-6 lg:p-7">
+        <main className="flex-1 flex flex-col min-w-0 bg-surface overflow-y-auto p-4 md:p-6 lg:p-7 h-full min-h-0">
           {/* Main Top Header (Reference Section 4.4) */}
-          <header className="flex items-center justify-between gap-4 pb-4 mb-3 border-b border-line/60">
-            {/* Left: Greeting + Role Identity */}
-            <div>
-              <h1 className="text-[18px] md:text-[20px] font-medium text-brand-ink leading-tight">
-                Hello, {user?.name || 'Staff'}!
-              </h1>
-              <p className="text-[11px] text-text-secondary mt-0.5">
-                WardLine Quarantine & Treatment Facility · {user?.title || user?.role}
-              </p>
+          <header className="flex items-center justify-between gap-4 pb-4 mb-3 border-b border-line/60 shrink-0">
+            {/* Left: Collapse toggle + Greeting + Role Identity */}
+            <div className="flex items-center gap-2.5">
+              <button
+                onClick={toggleSidebar}
+                className="hidden lg:flex items-center justify-center w-8 h-8 rounded-lg border border-line bg-white text-text-muted hover:text-brand-ink transition-colors shadow-xs"
+                title={isSidebarCollapsed ? 'Expand sidebar panel' : 'Collapse sidebar panel'}
+              >
+                {isSidebarCollapsed ? (
+                  <PanelLeftOpen className="w-4 h-4 text-brand-blue" />
+                ) : (
+                  <PanelLeftClose className="w-4 h-4" />
+                )}
+              </button>
+              <div>
+                <h1 className="text-[18px] md:text-[20px] font-medium text-brand-ink leading-tight">
+                  Hello, {user?.name || 'Staff'}!
+                </h1>
+                <p className="text-[11px] text-text-secondary mt-0.5">
+                  WardLine Quarantine & Treatment Facility · {user?.title || user?.role}
+                </p>
+              </div>
             </div>
 
             {/* Right: Persona Switcher, Simulated Date, Demo Drawer Trigger, Search */}
@@ -256,98 +310,77 @@ export function AppShell() {
               </div>
 
               {/* Simulated Clock Badge */}
-              <div
-                onClick={() => setIsDemoDrawerOpen(true)}
-                className="hidden sm:flex items-center gap-1.5 bg-slate-100 border border-slate-200/80 px-2.5 py-1.5 rounded-lg text-xs text-text-secondary cursor-pointer hover:bg-slate-200 transition-colors"
-                title="Click to manage simulated time and demo tools"
-              >
+              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-line rounded-lg text-xs font-mono text-text-secondary shadow-xs">
                 <Calendar className="w-3.5 h-3.5 text-brand-blue" />
-                <span className="font-semibold text-brand-ink tabular-nums">
-                  {overview?.today || '2024-10-23'}
-                </span>
-                <span className="text-[10px] text-brand-blue font-medium bg-brand-blue/10 px-1 rounded">
-                  Simulated
-                </span>
+                <span>{overview?.today || '2026-10-23'}</span>
+                <span className="text-[10px] text-text-muted uppercase">Simulated</span>
               </div>
 
-              {/* Demo Tools Button */}
+              {/* Demo Tools Drawer Trigger */}
               <button
                 onClick={() => setIsDemoDrawerOpen(true)}
-                className="flex items-center gap-1.5 bg-brand-ink text-white px-2.5 py-1.5 rounded-lg text-xs font-medium hover:bg-slate-800 transition-colors shadow-xs"
-                title="Open Demo & Evaluation Tools"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-ink text-white hover:bg-slate-800 transition-colors shadow-xs"
+                title="Open Simulator Drawer"
               >
-                <Sparkles className="w-3.5 h-3.5 text-[#E3B9DF]" />
-                <span className="hidden md:inline">Demo Tools</span>
+                <Sparkles className="w-3.5 h-3.5 text-brand-pink" />
+                <span className="hidden sm:inline">Demo Tools</span>
               </button>
             </div>
           </header>
 
-          {/* Alert Banner (Only when WARNING or BREACH) */}
+          {/* Mortality Alert Banner (Prominent in Warning/Breach state) */}
           <AlertBanner
             mortality={overview?.mortality}
             onNavigateAnalytics={() => navigate('/director/analytics')}
           />
 
-          {/* Ward Summary KPI Strip */}
-          <div className="flex items-center justify-between gap-3 text-xs bg-surface-pure border border-line/60 rounded-xl px-4 py-2 mb-4 shadow-2xs overflow-x-auto">
-            <div className="flex items-center gap-4 shrink-0">
-              <span className="text-text-muted">
-                Temperatures Today:{' '}
-                <strong className="text-brand-ink tabular-nums">
-                  {overview?.tasks?.temperatures?.done || 38}/{overview?.rooms?.occupied || 74}
-                </strong>
-              </span>
+          {/* Live Ward Capacity Strip */}
+          <div className="flex items-center justify-between text-xs py-1.5 px-3 bg-white/70 border border-line/50 rounded-lg mb-3 shrink-0">
+            <div className="flex items-center gap-4 flex-wrap text-[11px]">
+              <div>
+                <span className="text-text-muted">Temperatures Today:</span>{' '}
+                <span className="font-semibold text-brand-ink tabular-nums">
+                  {overview?.tasks?.temperatures?.done ?? 38}/{overview?.rooms?.occupied ?? 74}
+                </span>
+              </div>
               <span className="text-slate-300">|</span>
-              <span className="text-text-muted">
-                Doctor Visits Today:{' '}
-                <strong className="text-brand-ink tabular-nums">
-                  {overview?.tasks?.visits?.done || 18}/{overview?.rooms?.occupied || 74}
-                </strong>
-              </span>
+              <div>
+                <span className="text-text-muted">Doctor Visits Today:</span>{' '}
+                <span className="font-semibold text-brand-ink tabular-nums">
+                  {overview?.tasks?.visits?.done ?? 18}/{overview?.rooms?.occupied ?? 74}
+                </span>
+              </div>
               <span className="text-slate-300">|</span>
-              <span className="text-text-muted">
-                Free Rooms:{' '}
-                <strong
-                  className={cn(
-                    'tabular-nums font-bold',
-                    overview?.rooms?.free > 0 ? 'text-success' : 'text-fever'
-                  )}
-                >
+              <div>
+                <span className="text-text-muted">Free Rooms:</span>{' '}
+                <span className={cn('font-semibold tabular-nums', (overview?.rooms?.free ?? 0) === 0 ? 'text-fever' : 'text-success')}>
                   {overview?.rooms?.free ?? 0}/{overview?.rooms?.total ?? 74}
-                </strong>
-              </span>
+                </span>
+              </div>
             </div>
 
-            <div className="text-[11px] text-text-muted hidden md:flex items-center gap-2">
+            <div className="flex items-center gap-1.5 text-[10px] text-text-muted">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Live MongoDB Atlas Sync (20s interval)</span>
             </div>
           </div>
 
-          {/* Main Content Area */}
+          {/* Child Route Screen Viewport */}
           <div className="flex-1 min-h-0">
             <Outlet />
           </div>
 
-          {/* Prototype Evaluation Footer */}
-          <footer className="mt-6 pt-3 border-t border-line/40 flex flex-col sm:flex-row items-center justify-between text-[11px] text-text-muted gap-2">
-            <span>
-              Prototype for evaluation. Uses simulated data. Not for clinical use.
-            </span>
+          {/* Subdued Prototype Notice Footer */}
+          <footer className="pt-4 mt-6 border-t border-line/40 flex items-center justify-between text-[10px] text-text-muted shrink-0">
+            <span>Prototype for evaluation. Uses simulated data. Not for clinical use.</span>
             <div className="flex items-center gap-3">
-              <NavLink to="/audit" className="hover:text-brand-blue transition-colors">
-                Audit Log
-              </NavLink>
-              <span>·</span>
-              <NavLink to="/director/settings" className="hover:text-brand-blue transition-colors">
-                Settings
-              </NavLink>
-              <span>·</span>
+              <NavLink to="/audit" className="hover:underline">Audit Log</NavLink>
+              <NavLink to="/director/settings" className="hover:underline">Settings</NavLink>
               <a
                 href="https://github.com/T4RuN05/WardLine---Factwise"
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-brand-blue underline"
+                className="hover:underline"
               >
                 GitHub Repository
               </a>
@@ -356,8 +389,11 @@ export function AppShell() {
         </main>
       </div>
 
-      {/* Demo Controls Drawer */}
-      <DemoDrawer isOpen={isDemoDrawerOpen} onClose={() => setIsDemoDrawerOpen(false)} />
+      {/* Floating Demo Drawer Modal */}
+      <DemoDrawer
+        isOpen={isDemoDrawerOpen}
+        onClose={() => setIsDemoDrawerOpen(false)}
+      />
     </div>
   );
 }
