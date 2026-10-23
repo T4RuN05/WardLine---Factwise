@@ -14,9 +14,9 @@
 | **Phase 0** | Workspace Setup & Repository Scaffold | [x] Completed | 2026-10-23 | Git init, server & client skeletons, dependencies, Vite + Tailwind config |
 | **Phase 1** | Pure Domain Core & Unit Tests | [x] Completed | 2026-10-23 | 39 Vitest domain tests passing: dates, temperature, tasks, eligibility, metrics, permissions |
 | **Phase 2** | MongoDB Models & Schema Indexes | [x] Completed | 2026-10-23 | All 9 Mongoose models, compound unique partial indexes for active readings and daily visits, transaction support |
-| **Phase 3** | Backend API, Middleware, Auth & Services | [x] In Progress | - | Controllers, routes, JWT auth, validation, mutation services, audit logging |
-| **Phase 4** | Synthetic Seed & Demo Simulation Tools | [ ] Pending | - | Deterministic seed (74 patients, 50 closed cases, 4 roles), clock advance, auto-fill, reset |
-| **Phase 5** | Frontend Shell, Design System & Native State | [ ] Pending | - | Tailwind tokens, typography, AppShell, AlertBanner, AuthContext, AppDataContext |
+| **Phase 3** | Backend API, Middleware, Auth & Services | [x] Completed | 2026-10-23 | Full Express API, JWT auth, validation, transactional services (admit, temp, visit, discharge, death), audit log |
+| **Phase 4** | Synthetic Seed & Demo Simulation Tools | [x] Completed | 2026-10-23 | Deterministic seed on Atlas: 74 occupied rooms, 38 done/36 pending, 50 closed cases (14.0% WARNING), 50 tests passing |
+| **Phase 5** | Frontend Shell, Design System & Native State | [x] In Progress | - | Tailwind tokens, typography, AppShell, AlertBanner, AuthContext, AppDataContext |
 | **Phase 6** | Role Workflow Screens (Nurse, Doctor, Admin) | [ ] Pending | - | Nurse worklist, Bedside sheet, Doctor rounds, Visit chart, Bed map (74 tiles), Discharge queue, Patient admission |
 | **Phase 7** | Director Analytics, Audit Log & Settings | [ ] Pending | - | Mortality gauge vs 15% benchmark, delay SLA, audit table, settings |
 | **Phase 8** | Testing, Demo Script Verification & Git History | [ ] Pending | - | Vitest suites, full 6-minute demo script verification, polish |
@@ -57,22 +57,22 @@
 - [x] Schema & index integration tests passing
 
 ### Phase 3: Backend API, Middleware, Auth & Services (WP3 & WP4)
-- [ ] Clock service (`clock.js`) supporting simulated time
-- [ ] Express middleware: `authenticate.js`, `authorize.js`, `validate.js`, `errorHandler.js`, `requestId.js`
-- [ ] Mutation services with transactional guarantees:
+- [x] Clock service (`clock.js`) supporting simulated time
+- [x] Express middleware: `authenticate.js`, `authorize.js`, `validate.js`, `errorHandler.js`, `requestId.js`
+- [x] Mutation services with transactional guarantees:
   - `admissionService.js` (ADM-1 to ADM-7)
   - `temperatureService.js` (TMP-1 to TMP-11, auto-revocation DIS-6/7)
   - `visitService.js` (VIS-1 to VIS-7)
   - `dischargeService.js` (DIS-1 to DIS-9)
   - `deathService.js` (DEC-1 to DEC-4)
-- [ ] Read services: Overview, Nurse worklist, Doctor rounds, Bed map, Discharge queue, Director analytics, Audit log
-- [ ] Express routes & controllers conforming to the standardized JSON envelope
+- [x] Read services: Overview, Nurse worklist, Doctor rounds, Bed map, Discharge queue, Director analytics, Audit log
+- [x] Express routes & controllers conforming to the standardized JSON envelope
 
 ### Phase 4: Synthetic Seed & Demo Tools (WP5)
-- [ ] Seed generator (`names.js`, `prng.js`, `seed.js`)
-- [ ] Deterministic dataset: 74 occupied rooms, clinical state distribution, 50 closed cases (43 discharged, 7 deceased = 14.0% WARNING)
-- [ ] Demo controllers: persona login, clock advance, auto-fill today, reset to seed
-- [ ] Integration tests verifying API behavior and seed state
+- [x] Seed generator (`names.js`, `prng.js`, `seed.js`)
+- [x] Deterministic dataset: 74 occupied rooms, clinical state distribution, 50 closed cases (43 discharged, 7 deceased = 14.0% WARNING)
+- [x] Demo controllers: persona login, clock advance, auto-fill today, reset to seed
+- [x] Integration tests verifying API behavior and seed state (50/50 tests passing!)
 
 ### Phase 5: Frontend Design System, Shell & Core State (WP6)
 - [ ] Clinical design tokens (`tokens.css`, typography: Atkinson Hyperlegible & Barlow Condensed)
