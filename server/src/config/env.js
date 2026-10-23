@@ -5,6 +5,8 @@ export const env = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   PORT: parseInt(process.env.PORT || '4000', 10),
   MONGODB_URI: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/wardline_demo',
+  MONGODB_CONNECT_RETRIES: parseInt(process.env.MONGODB_CONNECT_RETRIES || '5', 10),
+  MONGODB_RETRY_DELAY_MS: parseInt(process.env.MONGODB_RETRY_DELAY_MS || '5000', 10),
   JWT_SECRET: process.env.JWT_SECRET || 'super-secret-demo-key-for-wardline-facility-assessment-2024',
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '4h',
   CLIENT_ORIGIN: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
