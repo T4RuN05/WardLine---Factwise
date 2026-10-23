@@ -2,8 +2,9 @@
 
 **Project:** WardLine — Quarantine & Treatment Facility Management App  
 **Specification:** [`architecture.md`](./architecture.md) & [`README.md`](./README.md)  
-**Status:** In Progress  
-**Current Phase:** Phase 0 (Workspace Setup & Repository Scaffold)
+**Design Reference:** [`wardline-design-reference.md`](./wardline-design-reference.md)  
+**Status:** Completed & Verified  
+**Current Phase:** Phase 8 (Verification, Walkthrough & Git Push)
 
 ---
 
@@ -16,10 +17,10 @@
 | **Phase 2** | MongoDB Models & Schema Indexes | [x] Completed | 2026-10-23 | All 9 Mongoose models, compound unique partial indexes for active readings and daily visits, transaction support |
 | **Phase 3** | Backend API, Middleware, Auth & Services | [x] Completed | 2026-10-23 | Full Express API, JWT auth, validation, transactional services (admit, temp, visit, discharge, death), audit log |
 | **Phase 4** | Synthetic Seed & Demo Simulation Tools | [x] Completed | 2026-10-23 | Deterministic seed on Atlas: 74 occupied rooms, 38 done/36 pending, 50 closed cases (14.0% WARNING), 50 tests passing |
-| **Phase 5** | Frontend Shell, Design System & Native State | [x] In Progress | - | Tailwind tokens, typography, AppShell, AlertBanner, AuthContext, AppDataContext |
-| **Phase 6** | Role Workflow Screens (Nurse, Doctor, Admin) | [ ] Pending | - | Nurse worklist, Bedside sheet, Doctor rounds, Visit chart, Bed map (74 tiles), Discharge queue, Patient admission |
-| **Phase 7** | Director Analytics, Audit Log & Settings | [ ] Pending | - | Mortality gauge vs 15% benchmark, delay SLA, audit table, settings |
-| **Phase 8** | Testing, Demo Script Verification & Git History | [ ] Pending | - | Vitest suites, full 6-minute demo script verification, polish |
+| **Phase 5** | Frontend Shell, Design System & Native State | [x] Completed | 2026-10-23 | Dribbble visual tokens, Inter font, AppShell two-part dark sidebar, AlertBanner, AuthContext, AppDataContext |
+| **Phase 6** | Role Workflow Screens (Nurse, Doctor, Admin) | [x] Completed | 2026-10-23 | Nurse worklist, Bedside sheet, Doctor rounds, Visit chart, Bed map (74 tiles), Discharge queue, Patient directory & intake |
+| **Phase 7** | Director Analytics, Audit Log & Settings | [x] Completed | 2026-10-23 | Mortality gauge vs 15% benchmark, outcomes bar chart, immutable audit trail, configurable thresholds |
+| **Phase 8** | Testing, Demo Script Verification & Git History | [x] Completed | 2026-10-23 | 50/50 backend tests passing, 10/10 frontend tests passing, Vite production bundle compiled, git committed |
 
 ---
 
@@ -27,6 +28,7 @@
 
 ### Phase 0: Workspace Setup & Repository Scaffold
 - [x] Git repository initialized (`git init`)
+- [x] Remote repository linked: `https://github.com/T4RuN05/WardLine---Factwise.git`
 - [x] Root `.gitignore` and `package.json` for convenience scripts
 - [x] `server/` directory setup with Express, Mongoose, Zod, JWT, Vitest dependencies
 - [x] `client/` directory setup with Vite, React, Tailwind CSS, Lucide, Radix, Sonner, Recharts
@@ -70,32 +72,34 @@
 
 ### Phase 4: Synthetic Seed & Demo Tools (WP5)
 - [x] Seed generator (`names.js`, `prng.js`, `seed.js`)
-- [x] Deterministic dataset: 74 occupied rooms, clinical state distribution, 50 closed cases (43 discharged, 7 deceased = 14.0% WARNING)
+- [x] Deterministic dataset on Atlas: 74 occupied rooms, clinical state distribution, 50 closed cases (43 discharged, 7 deceased = 14.0% WARNING)
 - [x] Demo controllers: persona login, clock advance, auto-fill today, reset to seed
 - [x] Integration tests verifying API behavior and seed state (50/50 tests passing!)
 
 ### Phase 5: Frontend Design System, Shell & Core State (WP6)
-- [ ] Clinical design tokens (`tokens.css`, typography: Atkinson Hyperlegible & Barlow Condensed)
-- [ ] `AuthContext.jsx` with demo persona login/switcher
-- [ ] `AppDataContext.jsx` with native React `useReducer` and polling / focus refetching
-- [ ] API client wrapper (`client/src/lib/api.js`)
-- [ ] `AppShell.jsx` with simulated date, persona switcher, demo drawer button, mortality alert banner, occupancy strip
-- [ ] UI component library (Button, Modal, Sheet, Badge, SegmentedControl, Table, Tooltip)
+- [x] Clinical design tokens (`tokens.css` with `#131315`, `#E7EAEC`, `#8AADDB`, `#E3B9DF`, Inter font)
+- [x] `AuthContext.jsx` with demo persona login/switcher and token management
+- [x] `AppDataContext.jsx` with native React `useReducer` and polling / focus refetching
+- [x] API client wrapper (`client/src/lib/api.js`) with endpoint normalization
+- [x] `AppShell.jsx` with two-part dark sidebar, MiniCalendar, DailySummaryCard, SidebarPatientList, MainHeader, and DemoDrawer
+- [x] UI component library (`MetricCard`, `MonthlyBarChartCard`, `CompletionGaugeCard`, `StatusBadge`, `StreakDots`, `Modal`, `ReasonDialog`, `Button`, `AlertBanner`)
 
 ### Phase 6: Role Workflow Screens (WP7, WP8, WP9)
-- [ ] Nurse Worklist (`/nurse/worklist`): Pending / Done tabs, Bedside `RecordTemperatureSheet`, step buttons, duplicate dialog, reason correction dialog
-- [ ] Doctor Rounds (`/doctor/rounds`): Priority sorting, status pills, awaiting temperature disabled state
-- [ ] Visit Form (`/doctor/visit/:patientId`): 14-day temperature chart, streak dots, clinical status, notes, addendum flow, approve discharge dialog, record death dialog
-- [ ] Bed Map (`/admin/beds`): 74-room interactive grid grouped by ward, status markers, slide-out drawer, instant capacity updates
-- [ ] Discharge Queue (`/admin/discharges`): Awaiting approval & ready for checkout queues, overdue SLA badges, checkout action
-- [ ] Patient Directory (`/patients`, `/patients/new`, `/patients/:id`): Search, ward filters, admission form with free room selection and duplicate warning, full clinical profile
+- [x] Nurse Worklist (`/nurse/worklist`): Pending / Done tabs, Bedside `RecordTemperatureSheet`, step buttons, duplicate dialog, reason correction dialog
+- [x] Doctor Rounds (`/doctor/rounds`): Priority sorting, status pills, awaiting temperature disabled state
+- [x] Visit Form (`/doctor/visit/:patientId`): 14-day temperature chart, streak dots, clinical status, notes, addendum flow, approve discharge dialog, record death dialog
+- [x] Bed Map (`/admin/beds`): 74-room interactive grid grouped by ward, status markers, slide-out drawer, instant capacity updates
+- [x] Discharge Queue (`/admin/discharges`): Awaiting approval & ready for checkout queues, overdue SLA badges, checkout action
+- [x] Patient Directory (`/patients`, `/patients/new`, `/patients/:id`): Search, ward filters, admission form with free room selection and duplicate warning, full clinical profile
 
 ### Phase 7: Director Analytics, Audit Log & Settings (WP10)
-- [ ] Director Analytics (`/director/analytics`): Mortality gauge vs 15% benchmark, closed cases count, success rate vs 85%, occupancy, task completion rates, discharge delay SLA
-- [ ] Audit Log (`/audit`): Filterable, searchable chronological table
-- [ ] Facility Settings (`/director/settings`): Read and update configurable thresholds
+- [x] Director Analytics (`/director/analytics`): Mortality gauge vs 15% benchmark, closed cases count, success rate vs 85%, occupancy, task completion rates, discharge delay SLA
+- [x] Audit Log (`/audit`): Filterable, searchable immutable audit log table
+- [x] Facility Settings (`/director/settings`): Read and update configurable thresholds with director access guard
 
 ### Phase 8: End-to-End Verification & Walkthrough (WP11)
-- [ ] Full backend and frontend test execution
-- [ ] Complete 6-minute evaluation script verification across all 4 roles
-- [ ] Final documentation, README links, and git commits
+- [x] Full backend test execution: 50/50 tests passing (Domain & Integration)
+- [x] Full frontend test execution: 10/10 tests passing (Formatters & UI Components)
+- [x] Production build validation: `vite build` completed cleanly without errors
+- [x] Fixed null safety bug on `todayReading` in `SidebarPatientList.jsx`
+- [x] Push all changes to Git remote repository

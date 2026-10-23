@@ -1,11 +1,37 @@
 :root {
-  --ink: #14303A;
-  --paper: #F2F5F6;
-  --surface: #FFFFFF;
-  --line: #D3DCDF;
-  --brand: #1F5F8B;
+  /* Brand reference palette from Dribbble specification */
+  --canvas: #E7EAEC;
+  --surface: #F8F8F8;
+  --surface-pure: #FFFFFF;
+  --brand-ink: #131315;
+  --sidebar-raised: #202024;
+  --brand-blue: #8AADDB;
+  --brand-pink: #E3B9DF;
+
+  --text-primary: #171719;
+  --text-secondary: #626A73;
+  --text-muted: #969DA6;
+  --line: #E8EBEF;
+
+  --surface-soft-blue: #EDF3FA;
+  --success: #2F9E59;
+  --success-soft: #E6F5EA;
+  --warning: #E6A51B;
+  --warning-soft: #FFF4D7;
+  --pending: #96A1AC;
+  --pending-soft: #E9ECEF;
+  --info: #477FB8;
+  --info-soft: #EAF2FB;
+
+  /* Clinical statuses */
   --fever: #C2362B;
-  --warn: #B97A12;
-  --ok: #2B7A5B;
-  --muted: #5B6E75;
+  --fever-soft: #FDE8E7;
+  --critical: #8E1C14;
+  --critical-soft: #FBD5D3;
+
+  /* Geometry tokens */
+  --radius-app: 24px;
+  --radius-sidebar: 21px;
+  --radius-card: 14px;
+  --radius-control: 8px;
 }

@@ -7,25 +7,64 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: 'var(--ink)',
-        paper: 'var(--paper)',
-        surface: 'var(--surface)',
-        line: 'var(--line)',
-        brand: {
-          DEFAULT: 'var(--brand)',
-          light: '#2d84c2',
-          dark: '#144160',
+        canvas: 'var(--canvas)',
+        surface: {
+          DEFAULT: 'var(--surface)',
+          pure: 'var(--surface-pure)',
+          soft: 'var(--surface-soft-blue)',
         },
-        fever: 'var(--fever)',
-        warn: 'var(--warn)',
-        ok: 'var(--ok)',
-        muted: 'var(--muted)',
+        sidebar: {
+          DEFAULT: 'var(--brand-ink)',
+          raised: 'var(--sidebar-raised)',
+        },
+        brand: {
+          DEFAULT: 'var(--brand-blue)',
+          pink: 'var(--brand-pink)',
+          ink: 'var(--brand-ink)',
+          blue: 'var(--brand-blue)',
+          white: 'var(--surface)',
+        },
+        text: {
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          muted: 'var(--text-muted)',
+        },
+        line: 'var(--line)',
+        success: {
+          DEFAULT: 'var(--success)',
+          soft: 'var(--success-soft)',
+        },
+        warning: {
+          DEFAULT: 'var(--warning)',
+          soft: 'var(--warning-soft)',
+        },
+        pending: {
+          DEFAULT: 'var(--pending)',
+          soft: 'var(--pending-soft)',
+        },
+        info: {
+          DEFAULT: 'var(--info)',
+          soft: 'var(--info-soft)',
+        },
+        fever: {
+          DEFAULT: 'var(--fever)',
+          soft: 'var(--fever-soft)',
+        },
+        critical: {
+          DEFAULT: 'var(--critical)',
+          soft: 'var(--critical-soft)',
+        },
       },
       fontFamily: {
-        sans: ['"Atkinson Hyperlegible"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        condensed: ['"Barlow Condensed"', 'ui-sans-serif', 'sans-serif'],
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+      },
+      borderRadius: {
+        'app': 'var(--radius-app)',
+        'sidebar': 'var(--radius-sidebar)',
+        'card': 'var(--radius-card)',
+        'control': 'var(--radius-control)',
       },
     },
   },
   plugins: [],
-}
+};
